@@ -35,11 +35,11 @@ Modifiez le fichier .env pour définir la connexion à la base de données :
 
 ### 4. Configurer la Base de Données
 
-Créez la base de données et appliquez les migrations :
+Pour cause d'un bug, les fichiers de migrations ce sont supprimé.
 
-```php bin/console doctrine:database:create```
+Donc pour créer la base de données :
 
-```php bin/console doctrine:migrations:migrate```
+Copier coller le contenu du fichier bdd.sql et l'appliquer dans une invite de commande MySQL. 
 
 ### 5. Installer les Assets (si applicable)
 
