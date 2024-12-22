@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Paradise</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Intégration de Tailwind CSS -->
+</head>
+
+<body class="font-sans bg-gray-50 text-gray-900">
+
+<!-- Header -->
+<header class="bg-green-600 text-white py-8 text-center">
+    <h1 class="text-4xl font-bold">Music Paradise</h1>
+    <p class="mt-2 text-xl">Votre destination ultime pour découvrir des albums, des artistes et plus encore !</p>
+</header>
+
+<!-- Navigation -->
+<nav class="bg-gray-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex justify-center space-x-6">
+        <a href="#albums" class="hover:bg-gray-700 py-2 px-4 rounded-lg">Albums</a>
+        <a href="#artists" class="hover:bg-gray-700 py-2 px-4 rounded-lg">Artistes</a>
+        <a href="#playlists" class="hover:bg-gray-700 py-2 px-4 rounded-lg">Playlists</a>
+        <a href="#comments" class="hover:bg-gray-700 py-2 px-4 rounded-lg">Commentaires</a>
+        <a href="{{ url('app_login') }}" class="hover:bg-gray-700 py-2 px-4 rounded-lg">Login</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Albums Section -->
+        <section id="albums" class="mb-16">
+            <h2 class="text-3xl font-semibold text-center mb-8">Nos Albums</h2>
+            <div class="space-y-8 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:space-y-0 sm:gap-8">
+                {% for album in albums %}
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold">{{ album.title }}</h3>
+                    <p class="text-gray-600">{{ album.artist.name }} ({{ album.year }})</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Artists Section -->
+        <section id="artists" class="mb-16">
+            <h2 class="text-3xl font-semibold text-center mb-8">Nos Artistes</h2>
+            <div class="space-y-8 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:space-y-0 sm:gap-8">
+                {% for artist in artists %}
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold">{{ artist.name }}</h3>
+                    <p class="text-gray-600">{{ artist.genre }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Playlists Section -->
+        <section id="playlists" class="mb-16">
+            <h2 class="text-3xl font-semibold text-center mb-8">Nos Playlists</h2>
+            <div class="space-y-8 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:space-y-0 sm:gap-8">
+                {% for playlist in playlists %}
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold">{{ playlist.title }}</h3>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Comments Section -->
+        <section id="comments" class="mb-16">
+            <h2 class="text-3xl font-semibold text-center mb-8">Commentaires</h2>
+            <div class="space-y-6">
+                {% for comment in comments %}
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <p><strong>{{ comment.user.login }} :</strong> {{ comment.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <form action="#" method="post" class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+                <label for="comment" class="block text-lg font-semibold mb-2">Laisser un commentaire :</label>
+                <textarea required id="comment" name="comment" rows="4" cols="50" class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Votre commentaire..."></textarea>
+                <button type="submit" class="mt-4 bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">Envoyer</button>
+            </form>
+        </section>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-4 text-center">
+    <p>&copy; 2024 Music Paradise. Tous droits réservés.</p>
+</footer>
+
+</body>
+
+</html>

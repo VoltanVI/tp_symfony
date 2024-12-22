@@ -21,12 +21,22 @@ class Artist
     /**
      * @var Collection<int, Album>
      */
-    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'ref_artists')]
-    private Collection $ref_albums;
+    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist')]
+    private Collection $albums;
+
+    /**
+     * @var Collection<int, Album>
+     */
+    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artists')]
+    private Collection $album;
+
+    #[ORM\Column(length: 255)]
+    private ?string $genre = null;
 
     public function __construct()
     {
-        $this->ref_albums = new ArrayCollection();
+        $this->albums = new ArrayCollection();
+        $this->album = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,29 +59,49 @@ class Artist
     /**
      * @return Collection<int, Album>
      */
-    public function getRefAlbums(): Collection
+    public function getAlbums(): Collection
     {
-        return $this->ref_albums;
+        return $this->albums;
     }
 
-    public function addRefAlbum(Album $refAlbum): static
+    public function addAlbum(Album $album): static
     {
-        if (!$this->ref_albums->contains($refAlbum)) {
-            $this->ref_albums->add($refAlbum);
-            $refAlbum->setRefArtists($this);
+        if (!$this->albums->contains($album)) {
+            $this->albums->add($album);
+            $album->setArtist($this);
         }
 
         return $this;
     }
 
-    public function removeRefAlbum(Album $refAlbum): static
+    public function removeAlbum(Album $album): static
     {
-        if ($this->ref_albums->removeElement($refAlbum)) {
+        if ($this->albums->removeElement($album)) {
             // set the owning side to null (unless already changed)
-            if ($refAlbum->getRefArtists() === $this) {
-                $refAlbum->setRefArtists(null);
+            if ($album->getArtist() === $this) {
+                $album->setArtist(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Album>
+     */
+    public function getAlbum(): Collection
+    {
+        return $this->album;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): static
+    {
+        $this->genre = $genre;
 
         return $this;
     }

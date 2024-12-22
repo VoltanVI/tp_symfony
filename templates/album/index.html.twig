@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Album index{% endblock %}
+
+{% block body %}
+    <br>
+    <h1 class="text-center text-3xl">Liste des albums</h1>
+    <br>
+    <table class="table min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+        <thead>
+            <tr class="bg-green-600 text-white">
+                <th class="py-3 px-4 text-left">Id</th>
+                <th class="py-3 px-4 text-left">Title</th>
+                <th class="py-3 px-4 text-left">Year</th>
+                <th class="py-3 px-4 text-left">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for album in albums %}
+            <tr class="hover:bg-gray-100">
+                <td class="py-3 px-4">{{ album.id }}</td>
+                <td class="py-3 px-4">{{ album.title }}</td>
+                <td class="py-3 px-4">{{ album.year }}</td>
+                <td class="py-3 px-4">
+                    <a class="text-blue-600 hover:underline" href="{{ path('app_album_show', {'id': album.id}) }}">show</a>
+                    <a class="text-blue-600 hover:underline" href="{{ path('app_album_edit', {'id': album.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="hover:bg-gray-100">
+                <td class="py-3 px-4" colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a class="mb-6 inline-block bg-green-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-green-700 transition duration-300" href="{{ path('app_album_new') }}">Create new</a>
+{% endblock %}

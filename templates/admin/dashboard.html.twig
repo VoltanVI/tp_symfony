@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <nav class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-center space-x-6">
+            <a href="{{ path('home') }}" class="hover:bg-gray-700 py-2 px-4 rounded-lg">Accueil</a>
+            <a href="{{ path('admin_dashboard') }}" class="hover:bg-gray-700 py-2 px-4 rounded-lg">Admin Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="flex justify-center items-center min-h-screen bg-gray-50 py-12">
+        <div class="max-w-3xl w-full bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-center text-green-600 mb-4">Tableau de bord Administrateur</h2>
+            <p class="mb-4">Bonjour, {{ admin_name }} ({{ admin_email }})</p>
+
+            <h3 class="text-xl font-semibold mb-3">Informations Administratives :</h3>
+            <ul>
+                <li>Nombre d'utilisateurs inscrits : <strong>1024</strong></li>
+                <li>Dernière mise à jour du système : <strong>20 Décembre 2024</strong></li>
+                <li>Statut de la base de données : <strong>OK</strong></li>
+                <li>Nombre de tickets de support non traités : <strong>5</strong></li>
+                <!-- Ajouter plus d'informations administratives ici -->
+            </ul>
+        </div>
+    </div>
+{% endblock %}

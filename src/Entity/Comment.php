@@ -20,8 +20,17 @@ class Comment
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ref_comments')]
-    private ?Album $ref_album = null;
+    #[ORM\ManyToOne(inversedBy: 'comment')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Album $album = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Album $albums = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -52,14 +61,38 @@ class Comment
         return $this;
     }
 
-    public function getRefAlbum(): ?Album
+    public function getAlbum(): ?Album
     {
-        return $this->ref_album;
+        return $this->album;
     }
 
-    public function setRefAlbum(?Album $ref_album): static
+    public function setAlbum(?Album $album): static
     {
-        $this->ref_album = $ref_album;
+        $this->album = $album;
+
+        return $this;
+    }
+
+    public function getAlbums(): ?Album
+    {
+        return $this->albums;
+    }
+
+    public function setAlbums(?Album $albums): static
+    {
+        $this->albums = $albums;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

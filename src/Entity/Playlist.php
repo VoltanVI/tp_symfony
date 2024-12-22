@@ -21,12 +21,12 @@ class Playlist
     /**
      * @var Collection<int, Album>
      */
-    #[ORM\ManyToMany(targetEntity: Album::class, inversedBy: 'ref_playlist')]
-    private Collection $ref_albums;
+    #[ORM\ManyToMany(targetEntity: Album::class, inversedBy: 'playlists')]
+    private Collection $album;
 
     public function __construct()
     {
-        $this->ref_albums = new ArrayCollection();
+        $this->album = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,23 +49,23 @@ class Playlist
     /**
      * @return Collection<int, Album>
      */
-    public function getRefAlbums(): Collection
+    public function getAlbum(): Collection
     {
-        return $this->ref_albums;
+        return $this->album;
     }
 
-    public function addRefAlbum(Album $refAlbum): static
+    public function addAlbum(Album $album): static
     {
-        if (!$this->ref_albums->contains($refAlbum)) {
-            $this->ref_albums->add($refAlbum);
+        if (!$this->album->contains($album)) {
+            $this->album->add($album);
         }
 
         return $this;
     }
 
-    public function removeRefAlbum(Album $refAlbum): static
+    public function removeAlbum(Album $album): static
     {
-        $this->ref_albums->removeElement($refAlbum);
+        $this->album->removeElement($album);
 
         return $this;
     }

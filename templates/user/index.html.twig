@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <br>
+    <h1 class="text-center text-3xl">Liste des utilisateurs</h1>
+    <br>
+    <table class="table min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+        <thead>
+            <tr class="bg-green-600 text-white">
+                <th class="py-3 px-4 text-left">Id</th>
+                <th class="py-3 px-4 text-left">Login</th>
+                <th class="py-3 px-4 text-left">Password</th>
+                <th class="py-3 px-4 text-left">Role</th>
+                <th class="py-3 px-4 text-left">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr class="hover:bg-gray-100">
+                <td class="py-3 px-4">{{ user.id }}</td>
+                <td class="py-3 px-4">{{ user.login }}</td>
+                <td class="py-3 px-4">{{ user.password }}</td>
+                <td class="py-3 px-4">{{ user.role }}</td>
+                <td class="py-3 px-4">
+                    <a class="text-blue-600 hover:underline" href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                    <a class="text-blue-600 hover:underline" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="hover:bg-gray-100">
+                <td class="py-3 px-4" colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a class="mb-6 inline-block bg-green-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-green-700 transition duration-300" href="{{ path('app_user_new') }}">Create new</a>
+{% endblock %}

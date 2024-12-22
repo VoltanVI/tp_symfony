@@ -21,34 +21,37 @@ class Album
     #[ORM\Column]
     private ?int $year = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'albums')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Artist $ref_artist = null;
-
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'ref_comments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?self $ref_album = null;
+    private ?Artist $artist = null;
 
     /**
-     * @var Collection<int, self>
+     * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'ref_album')]
-    private Collection $ref_comments;
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'album')]
+    private Collection $comment;
 
-    #[ORM\ManyToOne(inversedBy: 'ref_albums')]
+    #[ORM\ManyToOne(inversedBy: 'album')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Artist $ref_artists = null;
+    private ?Artist $artists = null;
 
     /**
      * @var Collection<int, Playlist>
      */
-    #[ORM\ManyToMany(targetEntity: Playlist::class, mappedBy: 'ref_albums')]
-    private Collection $ref_playlist;
+    #[ORM\ManyToMany(targetEntity: Playlist::class, mappedBy: 'album')]
+    private Collection $playlists;
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'albums')]
+    private Collection $comments;
 
     public function __construct()
     {
-        $this->ref_comments = new ArrayCollection();
-        $this->ref_playlist = new ArrayCollection();
+        $this->comment = new ArrayCollection();
+        $this->playlists = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,68 +83,56 @@ class Album
         return $this;
     }
 
-    public function getRefArtist(): ?Artist
+    public function getArtist(): ?Artist
     {
-        return $this->ref_artist;
+        return $this->artist;
     }
 
-    public function setRefArtist(?Artist $ref_artist): static
+    public function setArtist(?Artist $artist): static
     {
-        $this->ref_artist = $ref_artist;
-
-        return $this;
-    }
-
-    public function getRefAlbum(): ?self
-    {
-        return $this->ref_album;
-    }
-
-    public function setRefAlbum(?self $ref_album): static
-    {
-        $this->ref_album = $ref_album;
+        $this->artist = $artist;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, self>
+     * @return Collection<int, Comment>
      */
-    public function getRefComments(): Collection
+    public function getComment(): Collection
     {
-        return $this->ref_comments;
+        return $this->comment;
     }
 
-    public function addRefComment(self $refComment): static
+    public function addComment(Comment $comment): static
     {
-        if (!$this->ref_comments->contains($refComment)) {
-            $this->ref_comments->add($refComment);
-            $refComment->setRefAlbum($this);
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setAlbum($this);
         }
 
         return $this;
     }
 
-    public function removeRefComment(self $refComment): static
+    public function removeComment(Comment $comment): static
     {
-        if ($this->ref_comments->removeElement($refComment)) {
+        if ($this->comment->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($refComment->getRefAlbum() === $this) {
-                $refComment->setRefAlbum(null);
+            if ($comment->getAlbum() === $this) {
+                $comment->setAlbum(null);
             }
         }
 
         return $this;
     }
 
-    public function getRefArtists(): ?Artist
+    public function getArtists(): ?Artist
     {
-        return $this->ref_artists;
+        return $this->artists;
     }
 
-    public function setRefArtists(?Artist $ref_artists): static
+    public function setArtists(?Artist $artists): static
     {
-        $this->ref_artists = $ref_artists;
+        $this->artists = $artists;
 
         return $this;
     }
@@ -149,28 +140,35 @@ class Album
     /**
      * @return Collection<int, Playlist>
      */
-    public function getRefPlaylist(): Collection
+    public function getPlaylists(): Collection
     {
-        return $this->ref_playlist;
+        return $this->playlists;
     }
 
-    public function addRefPlaylist(Playlist $refPlaylist): static
+    public function addPlaylist(Playlist $playlist): static
     {
-        if (!$this->ref_playlist->contains($refPlaylist)) {
-            $this->ref_playlist->add($refPlaylist);
-            $refPlaylist->addRefAlbum($this);
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+            $playlist->addAlbum($this);
         }
 
         return $this;
     }
 
-    public function removeRefPlaylist(Playlist $refPlaylist): static
+    public function removePlaylist(Playlist $playlist): static
     {
-        if ($this->ref_playlist->removeElement($refPlaylist)) {
-            $refPlaylist->removeRefAlbum($this);
+        if ($this->playlists->removeElement($playlist)) {
+            $playlist->removeAlbum($this);
         }
 
         return $this;
     }
 
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
 }
